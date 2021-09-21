@@ -16,6 +16,7 @@ package com.liferay.date.filter;
 
 import com.liferay.info.filter.InfoFilterProvider;
 import com.liferay.portal.kernel.util.StringUtil;
+import org.osgi.service.component.annotations.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -25,6 +26,7 @@ import java.util.Map;
 /**
  * @author Víctor Galán
  */
+@Component(immediate = true, service = InfoFilterProvider.class)
 public class DateInfoFilterProvider implements InfoFilterProvider<InfoFilterDate> {
 
 	@Override
