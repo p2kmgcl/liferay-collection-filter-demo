@@ -166,10 +166,7 @@ public class BasicWebContentInfoCollectionProvider
 			).build());
 
 		Optional<InfoFilterDate> dateInfoFilterOptional = collectionQuery.getInfoFilterOptional(InfoFilterDate.class);
-
-		System.out.println("entro aqui");
-
-
+		
 		if (dateInfoFilterOptional.isPresent()) {
 			searchContext.setBooleanClauses(_getDateBooleanClause(dateInfoFilterOptional.get()));
 		}
