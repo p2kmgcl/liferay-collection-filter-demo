@@ -1,12 +1,16 @@
 {
 	"devDependencies": {
+		"@liferay/npm-scripts": "^46.1.1",
 		"babel-cli": "^6.26.0",
 		"babel-preset-env": "^1.7.0",
-		"liferay-npm-bundler": "2.18.2"
+		"eslint": "^7.32.0",
+		"liferay-npm-bundler": "^2.26.0"
 	},
 	"name": "date-filter",
 	"scripts": {
-		"build": "babel --source-maps -d build/resources/main/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler"
+		"build": "babel --source-maps -d build/resources/main/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler",
+		"checkFormat": "liferay-npm-scripts check",
+		"format": "liferay-npm-scripts fix"
 	},
 	"version": "1.0.0"
 }
