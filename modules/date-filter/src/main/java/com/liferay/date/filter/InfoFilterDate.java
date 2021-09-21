@@ -17,7 +17,6 @@ package com.liferay.date.filter;
 import com.liferay.info.filter.InfoFilter;
 
 import java.util.Date;
-import java.util.Optional;
 
 /**
  * @author Pablo Molina

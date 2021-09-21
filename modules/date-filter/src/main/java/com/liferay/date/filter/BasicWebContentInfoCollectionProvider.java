@@ -18,14 +18,11 @@ import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.FilteredInfoCollectionProvider;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
-import com.liferay.info.filter.DateInfoFilter;
 import com.liferay.info.filter.InfoFilter;
-import com.liferay.info.filter.KeywordsInfoFilter;
 import com.liferay.info.pagination.InfoPage;
 import com.liferay.info.pagination.Pagination;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
@@ -42,7 +39,6 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -51,11 +47,11 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
+
 import java.text.Format;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -64,14 +60,15 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
 /**
  * @author Víctor Galán
  */
-@Component(
-	immediate = true, service = InfoCollectionProvider.class
-)
+@Component(immediate = true, service = InfoCollectionProvider.class)
 public class BasicWebContentInfoCollectionProvider
-	implements FilteredInfoCollectionProvider<JournalArticle>{
+	implements FilteredInfoCollectionProvider<JournalArticle> {
 
 	@Override
 	public InfoPage<JournalArticle> getCollectionInfoPage(
@@ -128,28 +125,6 @@ public class BasicWebContentInfoCollectionProvider
 		return Arrays.asList(new InfoFilterDate());
 	}
 
-	private BooleanClause[] _getDateBooleanClause(
-		InfoFilterDate infoFilterDate) {
-
-		BooleanQueryImpl booleanQueryImpl = new BooleanQueryImpl();
-
-		BooleanFilter booleanFilter = new BooleanFilter();
-
-		Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(
-			PropsUtil.get(PropsKeys.INDEX_DATE_FORMAT_PATTERN));
-
-		booleanFilter.addRangeTerm(
-			Field.DISPLAY_DATE, format.format(infoFilterDate.getDate()),
-			format.format(new Date()));
-
-		booleanQueryImpl.setPreBooleanFilter(booleanFilter	);
-
-		return new BooleanClause[] {
-			BooleanClauseFactoryUtil.create(
-				booleanQueryImpl, BooleanClauseOccur.MUST.getName())
-		};
-	}
-
 	private SearchContext _buildSearchContext(CollectionQuery collectionQuery) {
 		SearchContext searchContext = new SearchContext();
 
@@ -165,10 +140,12 @@ public class BasicWebContentInfoCollectionProvider
 				"latest", true
 			).build());
 
-		Optional<InfoFilterDate> dateInfoFilterOptional = collectionQuery.getInfoFilterOptional(InfoFilterDate.class);
-		
+		Optional<InfoFilterDate> dateInfoFilterOptional =
+			collectionQuery.getInfoFilterOptional(InfoFilterDate.class);
+
 		if (dateInfoFilterOptional.isPresent()) {
-			searchContext.setBooleanClauses(_getDateBooleanClause(dateInfoFilterOptional.get()));
+			searchContext.setBooleanClauses(
+				_getDateBooleanClause(dateInfoFilterOptional.get()));
 		}
 
 		ServiceContext serviceContext =
@@ -198,13 +175,33 @@ public class BasicWebContentInfoCollectionProvider
 		return searchContext;
 	}
 
+	private BooleanClause[] _getDateBooleanClause(
+		InfoFilterDate infoFilterDate) {
+
+		BooleanQueryImpl booleanQueryImpl = new BooleanQueryImpl();
+
+		BooleanFilter booleanFilter = new BooleanFilter();
+
+		Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(
+			PropsUtil.get(PropsKeys.INDEX_DATE_FORMAT_PATTERN));
+
+		booleanFilter.addRangeTerm(
+			Field.DISPLAY_DATE, format.format(infoFilterDate.getDate()),
+			format.format(new Date()));
+
+		booleanQueryImpl.setPreBooleanFilter(booleanFilter);
+
+		return new BooleanClause[] {
+			BooleanClauseFactoryUtil.create(
+				booleanQueryImpl, BooleanClauseOccur.MUST.getName())
+		};
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		BasicWebContentInfoCollectionProvider.class);
 
-
 	@Reference
 	private DDMStructureLocalService _ddmStructureLocalService;
-
 
 	@Reference
 	private JournalArticleLocalService _journalArticleLocalService;

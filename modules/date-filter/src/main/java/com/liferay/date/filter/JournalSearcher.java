@@ -24,9 +24,7 @@ import com.liferay.portal.kernel.search.Indexer;
  */
 public class JournalSearcher extends BaseSearcher {
 
-	public static final String[] CLASS_NAMES = {
-		JournalArticle.class.getName()
-	};
+	public static final String[] CLASS_NAMES = {JournalArticle.class.getName()};
 
 	public static Indexer<?> getInstance() {
 		return new JournalSearcher();

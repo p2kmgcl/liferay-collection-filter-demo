@@ -16,28 +16,29 @@ package com.liferay.date.filter;
 
 import com.liferay.info.filter.InfoFilterProvider;
 import com.liferay.portal.kernel.util.StringUtil;
-import org.osgi.service.component.annotations.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Map;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Víctor Galán
  */
 @Component(immediate = true, service = InfoFilterProvider.class)
-public class DateInfoFilterProvider implements InfoFilterProvider<InfoFilterDate> {
+public class DateInfoFilterProvider
+	implements InfoFilterProvider<InfoFilterDate> {
 
 	@Override
 	public InfoFilterDate create(Map<String, String[]> values) {
 		InfoFilterDate infoFilterDate = new InfoFilterDate();
 
 		for (Map.Entry<String, String[]> entry : values.entrySet()) {
-
 			if (StringUtil.startsWith(
-				entry.getKey(),
-				InfoFilterDate.FILTER_TYPE_NAME + "_")) {
+					entry.getKey(), InfoFilterDate.FILTER_TYPE_NAME + "_")) {
 
 				try {
 					infoFilterDate.setDate(_format.parse(entry.getValue()[0]));
@@ -53,5 +54,7 @@ public class DateInfoFilterProvider implements InfoFilterProvider<InfoFilterDate
 		return null;
 	}
 
-	private static final DateFormat _format = new SimpleDateFormat("yyyy-MM-dd");
+	private static final DateFormat _format = new SimpleDateFormat(
+		"yyyy-MM-dd");
+
 }
