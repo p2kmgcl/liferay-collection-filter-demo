@@ -22,20 +22,29 @@ export default function DateFilter({
 	fragmentEntryLinkNamespace,
 }) {
 	const form = document.getElementById(`${fragmentEntryLinkNamespace}form`);
-	const dateInput = form?.elements['date'];
+	const dateInput = form && form.elements['date'];
 
-	if (!dateInput) {
+	if (!form || !dateInput) {
 		return;
 	}
 
-	const handleChange = () =>
-		setCollectionFilterValue(
-			fragmentEntryLinkId,
-			new Date(dateInput.value).getTime()
-		);
+	const handleChange = () => {
+		const nextDate = new Date(dateInput.value);
 
-	const urlDate = new Date(getCollectionFilterValue(fragmentEntryLinkId));
-	dateInput.value = isNaN(urlDate.getTime()) ? '' : urlDate.toISOString();
+		setCollectionFilterValue(
+			'date',
+			fragmentEntryLinkId,
+			`${nextDate.getFullYear()}-${(nextDate.getMonth() + 1)
+				.toString()
+				.padStart(2, '0')}-${nextDate
+				.getDate()
+				.toString()
+				.padStart(2, '0')}`
+		);
+	};
+
+	const urlValue = getCollectionFilterValue('date', fragmentEntryLinkId);
+	dateInput.value = isNaN(new Date(urlValue).getTime()) ? '' : urlValue;
 
 	form.addEventListener('change', handleChange);
 
