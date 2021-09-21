@@ -22,6 +22,26 @@ export default function DateFilter({
 	fragmentEntryLinkNamespace,
 }) {
 	const form = document.getElementById(`${fragmentEntryLinkNamespace}form`);
+	const dateInput = form?.elements['date'];
 
-	console.log(form);
+	if (!dateInput) {
+		return;
+	}
+
+	const handleChange = () =>
+		setCollectionFilterValue(
+			fragmentEntryLinkId,
+			new Date(dateInput.value).getTime()
+		);
+
+	const urlDate = new Date(getCollectionFilterValue(fragmentEntryLinkId));
+	dateInput.value = isNaN(urlDate.getTime()) ? '' : urlDate.toISOString();
+
+	form.addEventListener('change', handleChange);
+
+	return {
+		dispose() {
+			form.removeEventListener('change', handleChange);
+		},
+	};
 }
