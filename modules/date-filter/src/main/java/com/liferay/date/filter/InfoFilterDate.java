@@ -26,8 +26,8 @@ public class InfoFilterDate implements InfoFilter {
 
 	public static final String FILTER_TYPE_NAME = "date";
 
-	public Optional<Date> getDateOptional() {
-		return Optional.ofNullable(_date);
+	public Date getDate() {
+		return _date;
 	}
 
 	@Override

@@ -34,12 +34,15 @@ public class DateInfoFilterProvider implements InfoFilterProvider<InfoFilterDate
 		InfoFilterDate infoFilterDate = new InfoFilterDate();
 
 		for (Map.Entry<String, String[]> entry : values.entrySet()) {
-			if (!StringUtil.startsWith(
+
+			if (StringUtil.startsWith(
 				entry.getKey(),
 				InfoFilterDate.FILTER_TYPE_NAME + "_")) {
 
 				try {
 					infoFilterDate.setDate(_format.parse(entry.getValue()[0]));
+
+					return infoFilterDate;
 				}
 				catch (ParseException e) {
 					System.out.println("Invalid date format");
@@ -47,7 +50,7 @@ public class DateInfoFilterProvider implements InfoFilterProvider<InfoFilterDate
 			}
 		}
 
-		return infoFilterDate;
+		return null;
 	}
 
 	private static final DateFormat _format = new SimpleDateFormat("yyyy-MM-dd");
