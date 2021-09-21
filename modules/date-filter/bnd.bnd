@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Date Filter
+Bundle-SymbolicName: com.liferay.date.filter
+Bundle-Version: 1.0.0
+Web-ContextPath: /liferay-date-filter
