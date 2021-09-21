@@ -20,21 +20,25 @@
 FragmentRendererContext fragmentRendererContext = (FragmentRendererContext)request.getAttribute(FragmentRendererContext.class.getName());
 
 FragmentEntryLink fragmentEntryLink = fragmentRendererContext.getFragmentEntryLink();
+
+String fragmentEntryLinkNamespace = fragmentEntryLink.getNamespace() + fragmentEntryLink.getFragmentEntryLinkId();
 %>
 
-<form id="<portlet:namespace /><%= fragmentEntryLink.getFragmentEntryLinkId() %>form">
+<form id="<%= fragmentEntryLinkNamespace %>form">
 	<label>
 		<span><%= LanguageUtil.get(request, "date") %></span>
 
-		<input type="date" />
+		<input name="date" type="date" />
 	</label>
 </form>
 
 <liferay-frontend:component
 	context='<%=
-		HashMapBuilder.<String, Object>put(
-			"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
-		).build()
+			HashMapBuilder.<String, Object>put(
+				"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
+		).put(
+		"fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
+			).build()
 	%>'
 	module="DateFilter"
 />
