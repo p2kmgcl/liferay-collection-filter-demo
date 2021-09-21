@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.RangeTermFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -54,6 +55,7 @@ import java.text.Format;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -131,7 +133,11 @@ public class BasicWebContentInfoCollectionProvider
 		searchContext.setAndSearch(true);
 		searchContext.setAttributes(
 			HashMapBuilder.<String, Serializable>put(
-				Field.STATUS, WorkflowConstants.STATUS_APPROVED
+				Field.STATUS,
+				new int[] {
+					WorkflowConstants.STATUS_APPROVED,
+					WorkflowConstants.STATUS_SCHEDULED
+				}
 			).put(
 				"ddmStructureKey", "BASIC-WEB-CONTENT"
 			).put(
@@ -185,9 +191,20 @@ public class BasicWebContentInfoCollectionProvider
 		Format format = FastDateFormatFactoryUtil.getSimpleDateFormat(
 			PropsUtil.get(PropsKeys.INDEX_DATE_FORMAT_PATTERN));
 
-		booleanFilter.addRangeTerm(
-			Field.DISPLAY_DATE, format.format(infoFilterDate.getDate()),
-			format.format(new Date()));
+		Date date = infoFilterDate.getDate();
+
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, 1);
+
+		Date nextDate = calendar.getTime();
+
+		RangeTermFilter rangeTermFilter = new RangeTermFilter(
+			Field.DISPLAY_DATE, true, false, format.format(date),
+			format.format(nextDate));
+
+		booleanFilter.add(rangeTermFilter, BooleanClauseOccur.SHOULD);
 
 		booleanQueryImpl.setPreBooleanFilter(booleanFilter);
 
