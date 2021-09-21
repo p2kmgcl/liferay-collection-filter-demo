@@ -17,6 +17,8 @@ dependencies {
 			'com.liferay.fragment.collection.filter.api.jar',
 			'com.liferay.frontend.taglib.jar',
 			'com.liferay.info.api.jar',
+			'com.liferay.journal.api.jar',
+			'com.liferay.dynamic.data.mapping.api.jar'
 		)
 	}
 
