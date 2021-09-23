@@ -37,8 +37,8 @@ String fragmentEntryLinkNamespace = fragmentEntryLink.getNamespace() + fragmentE
 			HashMapBuilder.<String, Object>put(
 				"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
 		).put(
-		"fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
-			).build()
+				"fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
+		).build()
 	%>'
 	module="DateFilter"
 />
