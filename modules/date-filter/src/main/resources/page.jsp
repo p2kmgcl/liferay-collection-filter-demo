@@ -34,10 +34,10 @@ String fragmentEntryLinkNamespace = fragmentEntryLink.getNamespace() + fragmentE
 
 <liferay-frontend:component
 	context='<%=
-			HashMapBuilder.<String, Object>put(
-				"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
+		HashMapBuilder.<String, Object>put(
+			"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
 		).put(
-				"fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
+			"fragmentEntryLinkNamespace", fragmentEntryLinkNamespace
 		).build()
 	%>'
 	module="DateFilter"

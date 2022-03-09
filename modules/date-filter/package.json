@@ -8,9 +8,7 @@
 	},
 	"name": "date-filter",
 	"scripts": {
-		"build": "babel --source-maps -d build/resources/main/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler",
-		"checkFormat": "liferay-npm-scripts check",
-		"format": "liferay-npm-scripts fix"
+		"build": "babel --source-maps -d build/resources/main/META-INF/resources src/main/resources/META-INF/resources && liferay-npm-bundler"
 	},
 	"version": "1.0.0"
 }

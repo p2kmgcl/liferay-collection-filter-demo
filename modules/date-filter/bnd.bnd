@@ -1,4 +1,8 @@
 Bundle-Name: Liferay Date Filter
 Bundle-SymbolicName: com.liferay.date.filter
 Bundle-Version: 1.0.0
+Import-Package:\
+	com.liferay.portal.kernel.*;version="[1.0.0,99.0.0)",\
+	\
+	*
 Web-ContextPath: /liferay-date-filter
