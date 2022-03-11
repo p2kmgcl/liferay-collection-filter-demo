@@ -96,7 +96,7 @@ public class BasicDocumentSingleFormVariationInfoCollectionProvider
 
 	@Override
 	public List<InfoFilter> getSupportedInfoFilters() {
-		return Arrays.asList(new CategoriesInfoFilter(), new InfoFilterDate());
+		return Arrays.asList(new CategoriesInfoFilter(), new DateInfoFilter());
 	}
 
 	private SearchContext _buildSearchContext(CollectionQuery collectionQuery) {
@@ -129,8 +129,8 @@ public class BasicDocumentSingleFormVariationInfoCollectionProvider
 			searchContext.setAssetCategoryIds(categoryIds);
 		}
 
-		Optional<InfoFilterDate> dateInfoFilterOptional =
-			collectionQuery.getInfoFilterOptional(InfoFilterDate.class);
+		Optional<DateInfoFilter> dateInfoFilterOptional =
+			collectionQuery.getInfoFilterOptional(DateInfoFilter.class);
 
 		if (dateInfoFilterOptional.isPresent()) {
 			searchContext.setBooleanClauses(
@@ -183,7 +183,7 @@ public class BasicDocumentSingleFormVariationInfoCollectionProvider
 	}
 
 	private BooleanClause[] _getDateBooleanClause(
-		InfoFilterDate infoFilterDate) {
+		DateInfoFilter infoFilterDate) {
 
 		BooleanQueryImpl booleanQueryImpl = new BooleanQueryImpl();
 

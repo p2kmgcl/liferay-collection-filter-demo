@@ -30,15 +30,15 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(immediate = true, service = InfoFilterProvider.class)
 public class DateInfoFilterProvider
-	implements InfoFilterProvider<InfoFilterDate> {
+	implements InfoFilterProvider<DateInfoFilter> {
 
 	@Override
-	public InfoFilterDate create(Map<String, String[]> values) {
-		InfoFilterDate infoFilterDate = new InfoFilterDate();
+	public DateInfoFilter create(Map<String, String[]> values) {
+		DateInfoFilter infoFilterDate = new DateInfoFilter();
 
 		for (Map.Entry<String, String[]> entry : values.entrySet()) {
 			if (StringUtil.startsWith(
-					entry.getKey(), InfoFilterDate.FILTER_TYPE_NAME + "_")) {
+					entry.getKey(), DateInfoFilter.FILTER_TYPE_NAME + "_")) {
 
 				try {
 					infoFilterDate.setDate(_format.parse(entry.getValue()[0]));

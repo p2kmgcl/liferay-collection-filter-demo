@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * @author Pablo Molina
  */
-public class InfoFilterDate implements InfoFilter {
+public class DateInfoFilter implements InfoFilter {
 
 	public static final String FILTER_TYPE_NAME = "date";
 
